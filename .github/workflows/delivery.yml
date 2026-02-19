@@ -1,0 +1,22 @@
+name: Delivery Governance Artifacts
+
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: "0 13 * * 1" # weekly Monday 13:00 UTC
+
+jobs:
+  delivery:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Generate RTM artifacts
+        run: |
+          python tools/generate_rtm.py
+
+      - name: Upload artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: delivery-artifacts
+          path: generated/
